@@ -6,6 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: unzip -q ./*.zip
+      - run: sed -i 's/^import dev.astral.\*;/import dev.astral.*;\nimport dev.astral.Module;/' astral/src/main/java/dev/astral/gui/ClickGui.java
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 21 }
       - uses: gradle/actions/setup-gradle@v4
