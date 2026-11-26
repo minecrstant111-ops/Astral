@@ -10,8 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Unzip project
-        run: unzip -q ./*.zip -d project
+      - name: Find and unzip project
+        run: |
+          ZIP=$(find . -maxdepth 1 -type f -name '*.zip' | head -n 1)
+          unzip -q "$ZIP" -d project
 
       - name: Setup Java 21
         uses: actions/setup-java@v4
@@ -25,11 +27,11 @@ jobs:
           gradle-version: 8.12
 
       - name: Build
-        working-directory: project
+        working-directory: project/triggerbot-1.21.4
         run: gradle build
 
       - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
           name: triggerbot-1.21.4
-          path: project/build/libs/*.jar
+          path: project/triggerbot-1.21.4/build/libs/*.jar
